@@ -1,0 +1,17 @@
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.list-none {
+  list-style: none;
+  padding: 0;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
