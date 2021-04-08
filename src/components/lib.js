@@ -25,3 +25,14 @@ export function Layout({ children }) {
 export function Message({ text }) {
   return <p className="hello">{text}</p>;
 }
+
+export function Counter() {
+  const [count, setCount] = React.useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount((c) => c + 1)}>Click Me!</button>
+    </div>
+  );
+}

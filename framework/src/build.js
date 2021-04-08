@@ -1,7 +1,7 @@
 import React from "react";
 import fs from "fs-extra";
 import path from "path";
-import { renderToStaticMarkup } from "react-dom/server.js";
+import { renderToString } from "react-dom/server.js";
 
 function Document({ name, children }) {
   return (
@@ -24,7 +24,7 @@ function Document({ name, children }) {
 
 async function writeHTMLFile(appRoot, name) {
   const { default: Page } = await import(`${appRoot}/build/scripts/${name}.js`);
-  const documentHTML = renderToStaticMarkup(
+  const documentHTML = renderToString(
     <Document name={name}>
       <div id="root">
         <Page />
@@ -45,25 +45,41 @@ async function writeHTMLFiles() {
   for (const file of files) {
     pages.push(`${pagesDir}/${file}`);
   }
-  fs.rmSync(`${appRoot}/build`, { recursive: true });
+  fs.emptyDirSync(`${appRoot}/build/`, { recursive: true });
   const { buildSync } = await import("esbuild");
+
+  // build for node
   const result = buildSync({
     entryPoints: pages,
     // entryNames: "[dir]/[name]-[hash]",
     bundle: true,
-    splitting: true,
-    minify: true,
+    // minify: true,
     metafile: true,
     outdir: `${appRoot}/build/scripts/`,
-    format: "esm",
+    format: "cjs",
     loader: { ".js": "jsx" },
+    external: ["react"],
   });
 
   for (const page of pages) {
     const nameRegex = /\/([A-Za-z]+)\.js/g;
     const name = nameRegex.exec(page)[1];
-    writeHTMLFile(appRoot, name);
+    await writeHTMLFile(appRoot, name);
   }
+
+  // build for browser
+
+  buildSync({
+    entryPoints: pages,
+    // entryNames: "[dir]/[name]-[hash]",
+    bundle: true,
+    // minify: true,
+    metafile: true,
+    splitting: true,
+    outdir: `${appRoot}/build/scripts/`,
+    format: "esm",
+    loader: { ".js": "jsx" },
+  });
 
   fs.copyFileSync(`${appRoot}/src/app.css`, `${appRoot}/build/app.css`);
 }

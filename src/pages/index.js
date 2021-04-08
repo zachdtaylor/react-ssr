@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Layout, Message } from "../components/lib";
+import { Counter, Layout, Message } from "../components/lib";
 
 export default function Index() {
   return (
     <Layout>
       <Message text="Hey this is pretty cool" />
+      <Counter />
     </Layout>
   );
 }

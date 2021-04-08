@@ -1,6 +1,6 @@
-export default function (p1, p2) {
+module.exports = function (p1, p2) {
   return {
-    presets: [["@babel/preset-env", { modules: false }], "@babel/preset-react"],
+    presets: [["@babel/preset-env"], "@babel/preset-react"],
     plugins: ["@babel/plugin-transform-runtime"],
   };
-}
+};
