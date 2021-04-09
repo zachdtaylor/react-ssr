@@ -11,6 +11,9 @@ export function Header() {
         <a href="/about">
           <li>About</li>
         </a>
+        <a href="/blog">
+          <li>Blog</li>
+        </a>
       </ul>
     </nav>
   );
