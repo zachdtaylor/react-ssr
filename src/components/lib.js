@@ -35,6 +35,12 @@ export function Message({ text }) {
 export function Counter() {
   const [count, setCount] = React.useState(0);
 
+  React.useEffect(() => {
+    if (count !== 0 && count % 10 === 0) {
+      window.alert(`You reached ${count}!`);
+    }
+  }, [count]);
+
   return (
     <div>
       <p>Count: {count}</p>
