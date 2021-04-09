@@ -1,6 +1,7 @@
 import React from "react";
 import fs from "fs-extra";
 import path from "path";
+import diveSync from "diveSync";
 import { renderToString } from "react-dom/server.js";
 
 function Document({ name, children }) {
@@ -12,11 +13,11 @@ function Document({ name, children }) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5, shrink-to-fit=no"
         />
-        <link rel="stylesheet" href="app.css" />
+        <link rel="stylesheet" href="/app.css" />
       </head>
       <body>
         {children}
-        <script src={`scripts/${name}.js`} type="module"></script>
+        <script src={`/scripts/${name}.js`} type="module"></script>
       </body>
     </html>
   );
@@ -40,16 +41,16 @@ async function writeHTMLFile(appRoot, name) {
 async function writeHTMLFiles() {
   const appRoot = path.resolve(path.dirname(""));
   const pagesDir = path.resolve(`${appRoot}/src/pages/`);
-  const files = await fs.promises.readdir(path.resolve(pagesDir));
   const pages = [];
-  for (const file of files) {
-    pages.push(`${pagesDir}/${file}`);
-  }
+  diveSync(path.resolve(pagesDir), (err, file) => {
+    pages.push(file);
+  });
+  console.log("Emtying build directory...");
   fs.emptyDirSync(`${appRoot}/build/`, { recursive: true });
   const { buildSync } = await import("esbuild");
 
-  // build for node
-  const result = buildSync({
+  console.log("Building node bundles to generate HTML...");
+  buildSync({
     entryPoints: pages,
     // entryNames: "[dir]/[name]-[hash]",
     bundle: true,
@@ -61,14 +62,15 @@ async function writeHTMLFiles() {
     external: ["react"],
   });
 
+  console.log("Generating HTML...");
   for (const page of pages) {
-    const nameRegex = /\/([A-Za-z]+)\.js/g;
+    const nameRegex = /pages\/([A-Za-z\-/]+)\.js/g;
     const name = nameRegex.exec(page)[1];
+    console.log(`  ${name}`);
     await writeHTMLFile(appRoot, name);
   }
 
-  // build for browser
-
+  console.log("Building development browser bundles...");
   buildSync({
     entryPoints: pages,
     // entryNames: "[dir]/[name]-[hash]",
@@ -81,6 +83,7 @@ async function writeHTMLFiles() {
     loader: { ".js": "jsx" },
   });
 
+  console.log("Copying app.css...");
   fs.copyFileSync(`${appRoot}/src/app.css`, `${appRoot}/build/app.css`);
 }
 
