@@ -2,14 +2,17 @@ import React from "react";
 
 export function Header() {
   return (
-    <ul className="flex flex-row list-none">
-      <a href="/">
-        <li className="px-4">Home</li>
-      </a>
-      <a href="/about">
-        <li className="px-4">About</li>
-      </a>
-    </ul>
+    <nav className="header">
+      <h1>My Site</h1>
+      <ul>
+        <a href="/">
+          <li>Home</li>
+        </a>
+        <a href="/about">
+          <li>About</li>
+        </a>
+      </ul>
+    </nav>
   );
 }
 
@@ -17,7 +20,7 @@ export function Layout({ children }) {
   return (
     <>
       <Header />
-      {children}
+      <div id="content">{children}</div>
     </>
   );
 }
