@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { hydrate } from "../../framework/src";
 import { Counter, Layout, Message } from "../components/lib";
 
 export default function Index() {
@@ -11,8 +11,8 @@ export default function Index() {
   );
 }
 
-if (typeof document !== "undefined") {
-  const target = document.getElementById("root");
+export const meta = {
+  title: "Home",
+};
 
-  ReactDOM.hydrate(<Index />, target);
-}
+hydrate(Index);

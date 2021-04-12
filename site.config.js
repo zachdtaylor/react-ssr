@@ -1,9 +1,3 @@
-import path from "path";
-
-function getRoutes({ location }) {}
-
-const config = {
-  routes: getRoutes({ location: path.resolve("./src/pages") }),
+module.exports = {
+  siteTitle: "My Site",
 };
-
-export default config;

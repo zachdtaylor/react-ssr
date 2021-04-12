@@ -4,7 +4,7 @@ import path from "path";
 import diveSync from "diveSync";
 import { renderToString } from "react-dom/server.js";
 
-function Document({ name, children }) {
+function Document({ name, title, siteTitle, children }) {
   return (
     <html lang="en">
       <head>
@@ -13,6 +13,7 @@ function Document({ name, children }) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5, shrink-to-fit=no"
         />
+        <title>{title ? `${title} | ${siteTitle}` : siteTitle}</title>
         <link rel="stylesheet" href="/app.css" />
       </head>
       <body>
@@ -24,9 +25,12 @@ function Document({ name, children }) {
 }
 
 async function writeHTMLFile(appRoot, name) {
-  const { default: Page } = await import(`${appRoot}/build/scripts/${name}.js`);
+  const { default: siteConfig } = await import(`${appRoot}/site.config.js`);
+  const { default: Page, meta } = await import(
+    `${appRoot}/build/scripts/${name}.js`
+  );
   const documentHTML = renderToString(
-    <Document name={name}>
+    <Document name={name} title={meta?.title} siteTitle={siteConfig.siteTitle}>
       <div id="root">
         <Page />
       </div>

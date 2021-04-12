@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { Layout } from "../../components/lib";
 
 export default function Blog() {
@@ -11,8 +10,6 @@ export default function Blog() {
   );
 }
 
-if (typeof document !== "undefined") {
-  const target = document.getElementById("root");
-
-  ReactDOM.hydrate(<Blog />, target);
-}
+export const meta = {
+  title: "Blog",
+};

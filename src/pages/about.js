@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { Layout } from "../components/lib";
 
 export default function About() {
@@ -10,8 +9,6 @@ export default function About() {
   );
 }
 
-if (typeof document !== "undefined") {
-  const target = document.getElementById("root");
-
-  ReactDOM.hydrate(<About />, target);
-}
+export const meta = {
+  title: "About Us",
+};
