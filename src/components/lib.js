@@ -3,7 +3,9 @@ import React from "react";
 export function Header() {
   return (
     <nav className="header">
-      <h1>My Site</h1>
+      <a href="/">
+        <h1>My Site</h1>
+      </a>
       <ul>
         <a href="/">
           <li>Home</li>
