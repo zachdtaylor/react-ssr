@@ -7,15 +7,15 @@ export function Header() {
         <h1>My Site</h1>
       </a>
       <ul>
-        <a href="/">
-          <li>Home</li>
-        </a>
-        <a href="/about">
-          <li>About</li>
-        </a>
-        <a href="/blog">
-          <li>Blog</li>
-        </a>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/about">About</a>
+        </li>
+        <li>
+          <a href="/blog">Blog</a>
+        </li>
       </ul>
     </nav>
   );
@@ -25,7 +25,7 @@ export function Layout({ children }) {
   return (
     <>
       <Header />
-      <div id="content">{children}</div>
+      <main id="content">{children}</main>
     </>
   );
 }
