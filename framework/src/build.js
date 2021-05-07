@@ -4,7 +4,14 @@ import path from "path";
 import diveSync from "diveSync";
 import { renderToString } from "react-dom/server.js";
 
-function Document({ name, title, siteTitle, siteDescription, children }) {
+function Document({
+  name,
+  title,
+  description,
+  siteTitle,
+  siteDescription,
+  children,
+}) {
   return (
     <html lang="en">
       <head>
@@ -13,7 +20,7 @@ function Document({ name, title, siteTitle, siteDescription, children }) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5, shrink-to-fit=no"
         />
-        <meta name="description" content={siteDescription} />
+        <meta name="description" content={description || siteDescription} />
         <title>{title ? `${title} | ${siteTitle}` : siteTitle}</title>
         <link rel="stylesheet" href="/app.css" />
       </head>
@@ -34,6 +41,7 @@ async function writeHTMLFile(appRoot, name) {
     <Document
       name={name}
       title={meta?.title}
+      description={meta?.description}
       siteTitle={siteConfig.siteTitle}
       siteDescription={siteConfig.siteDescription}
     >

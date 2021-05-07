@@ -12,4 +12,5 @@ export default function FirstPost() {
 
 export const meta = {
   title: "First Post",
+  description: "This is my very first post.",
 };

@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node framework/lib/build.js",
-    "build-framework": "babel framework/src --out-dir framework/lib",
+    "build:framework": "babel framework/src --out-dir framework/lib",
     "serve": "npx serve build"
   },
   "author": "Zach Taylor",
